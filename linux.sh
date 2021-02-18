@@ -172,7 +172,7 @@ case $CASO in
     echo "Escriba el nombre del usuario que quiere deshabilitar"
     read CASO3
     echo -e
-    echo "deshabilitando usuario"
+    echo "Deshabilitando usuario"
     echo -e
     usermod -L $CASO3
     echo "Acción completada volviendo..."
