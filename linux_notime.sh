@@ -135,7 +135,6 @@ echo "8-Trazar ruta"
 #sleep 1s
 echo "9-Salir"
 #sleep 1s
-echo "0-Salida especial"
 echo -e
 
 read -p "Pulse un número correspondiente a la acción que muestra la gúia para ejecutar la orden: " CASO
@@ -419,41 +418,7 @@ case $CASO in
     clear
     exit
    ;;
-
-   0)
-    clear
-    echo "Ha elegido salir del script de una forma especial"
-    #sleep 3s
-    clear
-    echo "Preparando salida especial"
-    #sleep 3s
-    apt install cowsay -y
-    clear
-    echo "Salida especial preparada, limpiado terminal"
-    #sleep 3s
-    clear
-    echo "Saliendo"
-    #sleep 1s
-    echo "Saliend"
-    #sleep 1s
-    echo "Salien"
-    #sleep 1s
-    echo "Salie"
-    #sleep 1s
-    echo "Sali"
-    #sleep 1s
-    echo "Sal"
-    #sleep 1s
-    echo "Sa"
-    #sleep 1s
-    echo "S"
-    #sleep 1s
-    echo -e
-    cowsay Bye
-    #sleep 3s
-    clear
-    exit
-   ;;
+   
 esac
 done
 
