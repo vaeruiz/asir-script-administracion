@@ -1,7 +1,8 @@
 #!/bin/bash
 
 clear
-
+#set -x
+#set -e
 # Variable para fecha
 DATE=$(date +"%d-%b-%Y-%H_%M_%S")
 
@@ -40,7 +41,9 @@ case $RESPUESTA in
     echo "Cargado, comenzando actualización de repositorios"
     sleep 3s
     echo -e
-    apt update -y 
+    set -x
+    apt update -y
+    set +x
     echo -e
     echo "Actualización completada, gracias por esperar, continuemos"
     sleep 4s
@@ -63,9 +66,11 @@ case $RESPUESTA in
     echo "Cargado, comenzando actualización de repositorios"
     sleep 3s
     echo -e
+    set -x
     apt update -y
+    set +x
     echo -e
-    echo "Actualización realizada, gracias por esperar, continuemos"
+    echo "Actualización completada, gracias por esperar, continuemos"
     sleep 4s
    ;;
 
@@ -183,11 +188,129 @@ case $CASO in
    4)
     echo "Ha elegido cambiar los permisos de un usuario"
     sleep 3s
-    while [[ "$PERMISO" != [Q] ]]
+    echo "Instalando herramienta locate para localizar archivos y directorios"
+    sleep 5s
+    set -x
+    apt install mlocate
+    set +x
+    while clear
     do
-    clear
-    echo "Funciono"
-    sleep 3s
+    echo "Estas son las modificaciones que puede realizar:"
+    sleep 1s
+    echo "1)Cambiar permisos a una carpeta o un fichero"
+    sleep 1s
+    echo "2)Cambiar dueño y grupo de una carpeta o un fichero"
+    sleep 1s
+    echo "Salir)Escriba salir para volver al menú principal"
+    echo -e
+    read -p "Elija la opción que quiera llevar a cabo: " CASO4
+    case $CASO4 in
+      
+      1)
+         clear
+         echo "Ha elegido la opción 1"
+         sleep 2s
+         echo -e
+         read -p "Escriba solamente el nombre del fichero o directorio que quiere modificar: " CASO41LOCATE
+         clear
+         echo "Localizando"
+         echo -e
+         echo "Éstas son las localizaciones:"
+         echo -e
+         set -x
+         locate $CASO41LOCATE
+         set +x
+         echo -e
+         echo "Escriba solamente la ruta donde se encuentra el fichero o directorio partiendo del directorio raíz"
+         echo -e
+         echo "Ejemplo, si quiere cambiar archivo.txt que se encuentra en /home (/home/archivos/archivo.txt) escriba hasta donde está el directorio, es decir /home/archivo"
+         echo -e
+         read CASO41RUTA
+         echo -e
+         echo "Mostrando directorio"
+         echo -e
+         set -x
+         ls $CASO41RUTA -la
+         set +x
+         echo -e
+         read -p "Escriba el nombre del fichero/directorio al que quiere cambiarle los permisos: " CASO41FIDIR
+         echo -e
+         echo "Ha elegido $CASO41FIDIR"
+         sleep 1s
+         echo -e
+         read -p "Seleccione los permisos a modificar (todo=777 | lectura=4 | escritura=2 | ejecución= 1): " CASO41PERM
+         sleep 2s
+         echo "Cambiando"
+         sleep 2s
+         set -x
+         chmod $CASO41PERM $CASO41RUTA/$CASO41FIDIR
+         set +x
+         sleep 2s
+         echo -e
+         echo "Mostrando permisos modificados de $CASO41FIDIR"
+         set -x
+         ls -la $CASO41RUTA/$CASO41FIDIR
+         set +x
+         read -p "Presione Enter para volver al menú de permisos"
+      ;;
+
+      2)
+         clear
+         echo "Ha elegido la opción 2"
+         sleep 2s
+         echo -e
+         read -p "Escriba solamente el nombre del fichero o directorio que quiere modificar: " CASO42LOCATE
+         clear
+         echo "Localizando"
+         echo -e
+         echo "Éstas son las localizaciones:"
+         echo -e
+         set -x
+         locate $CASO42LOCATE
+         set +x
+         echo -e
+         echo "Escriba solamente la ruta donde se encuentra el fichero o directorio partiendo del directorio raíz"
+         echo -e
+         echo "Ejemplo, si quiere cambiar archivo.txt que se encuentra en /home (/home/archivos/archivo.txt) escriba hasta donde está el directorio, es decir /home/archivo"
+         echo -e
+         read CASO42RUTA
+         echo -e
+         echo "Mostrando directorio"
+         echo -e
+         set -x
+         ls $CASO42RUTA -la
+         set +x
+         echo -e
+         read -p "Escriba el nombre del fichero/directorio al que quiere cambiarle la propiedad: " CASO42FIDIR
+         echo -e
+         echo "Ha elegido $CASO42FIDIR"
+         sleep 1s
+         echo -e
+         read -p "Escriba el usuario que tendrá la propiedad: " CASO42PROP
+         read -p "Escriba el grupo que tendrá la propiedad: " CASO42GRUP
+         sleep 2s
+         echo "Cambiando propiedad"
+         sleep 2s
+         set -x
+         chown $CASO42PROP $CASO42RUTA/$CASO42FIDIR
+         chgrp $CASO42GRUP $CASO42RUTA/$CASO42FIDIR
+         set +x
+         sleep 2s
+         echo -e
+         echo "Mostrando permisos de $CASO42FIDIR"
+         set -x
+         ls -la $CASO42RUTA/$CASO42FIDIR
+         set +x
+         read -p "Presione Enter para volver al menú de permisos"
+      ;;
+
+      Salir)
+         clear
+         echo "Saliendo"
+         sleep 2s
+         break
+      ;;
+    esac
     done
    ;;
 
