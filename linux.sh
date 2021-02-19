@@ -1,8 +1,7 @@
 #!/bin/bash
 
 clear
-#set -x
-#set -e
+
 # Variable para fecha
 DATE=$(date +"%d-%b-%Y-%H_%M_%S")
 
